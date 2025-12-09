@@ -7,4 +7,4 @@
 - Writing tests: Do not write tests.
 - Communication: log clearly and briefly; surface errors with enough context to debug.
 - Pushing code: Use convetional commits
-
+- English - Everything should be written in English.
