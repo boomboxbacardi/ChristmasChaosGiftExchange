@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   ENDGAME_ROLLS,
-  INITIAL_PILE,
+  PACKAGES_PER_PLAYER,
   WARMUP_ROLLS,
   endgameTable,
   getPhaseTable,
@@ -26,10 +26,15 @@ const wait = (ms: number) =>
 
 type TargetOption = { player: Player; idx: number };
 
+const computeDefaultPile = (playerCount: number) =>
+  Math.max(0, playerCount * PACKAGES_PER_PLAYER);
+
 export const useChaosGame = () => {
   const [phase, setPhase] = useState<GamePhase>("setup");
   const [players, setPlayers] = useState<Player[]>([]);
-  const [pileCount, setPileCount] = useState<number>(INITIAL_PILE);
+  const [pileCount, setPileCount] = useState<number>(
+    computeDefaultPile(playersSeed.length)
+  );
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [rollsRemaining, setRollsRemaining] = useState<Record<string, number>>(
     {}
@@ -40,14 +45,18 @@ export const useChaosGame = () => {
   const [setupPlayers, setSetupPlayers] = useState<string[]>(
     playersSeed.map((p) => p.name)
   );
-  const [setupPile, setSetupPile] = useState<number>(INITIAL_PILE);
+  const [setupPile, setSetupPile] = useState<number>(() =>
+    computeDefaultPile(playersSeed.length)
+  );
   const [isSetupRandomizing, setIsSetupRandomizing] = useState(false);
   const [setupHighlightedIndex, setSetupHighlightedIndex] = useState<
     number | null
   >(null);
   const [pendingOrder, setPendingOrder] = useState<string[]>([]);
   const [pendingPlayers, setPendingPlayers] = useState<Player[]>([]);
-  const [pendingPile, setPendingPile] = useState<number>(INITIAL_PILE);
+  const [pendingPile, setPendingPile] = useState<number>(() =>
+    computeDefaultPile(playersSeed.length)
+  );
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [isStartingGame, setIsStartingGame] = useState(false);
   const [phaseBanner, setPhaseBanner] = useState<string | null>(null);
@@ -163,12 +172,12 @@ export const useChaosGame = () => {
   const resetGame = () => {
     setPhase("setup");
     setPlayers([]);
-    setPileCount(INITIAL_PILE);
+    setPileCount(computeDefaultPile(playersSeed.length));
     setCurrentPlayerIndex(0);
     setRollsRemaining({});
     setWarmupRollsTaken({});
     setSetupPlayers(playersSeed.map((p) => p.name));
-    setSetupPile(INITIAL_PILE);
+    setSetupPile(computeDefaultPile(playersSeed.length));
     setLog([]);
     setLastOutcome(null);
     setIsFinalResult(false);
@@ -193,7 +202,7 @@ export const useChaosGame = () => {
     setIsRandomizingSelection(false);
     setPendingOrder([]);
     setPendingPlayers([]);
-    setPendingPile(INITIAL_PILE);
+    setPendingPile(computeDefaultPile(playersSeed.length));
     setShowOrderModal(false);
     setIsStartingGame(false);
     setPhaseBanner(null);
@@ -388,12 +397,18 @@ export const useChaosGame = () => {
     );
 
   const addSetupPlayer = () =>
-    setSetupPlayers((prev) => [...prev, `Spelare ${prev.length + 1}`]);
+    setSetupPlayers((prev) => {
+      const next = [...prev, `Spelare ${prev.length + 1}`];
+      setSetupPile(computeDefaultPile(next.length));
+      return next;
+    });
 
   const removeSetupPlayer = (idx: number) =>
     setSetupPlayers((prev) => {
       if (prev.length <= 2) return prev;
-      return prev.filter((_, i) => i !== idx);
+      const next = prev.filter((_, i) => i !== idx);
+      setSetupPile(computeDefaultPile(next.length));
+      return next;
     });
 
   const runTargetRandomization = async (
@@ -1117,7 +1132,7 @@ export const useChaosGame = () => {
       setLog(parsed.log ?? []);
       setLastOutcome(parsed.lastOutcome);
       setSetupPlayers(parsed.setupPlayers ?? playersSeed.map((p) => p.name));
-      setSetupPile(parsed.setupPile ?? INITIAL_PILE);
+      setSetupPile(parsed.setupPile ?? computeDefaultPile(parsed.setupPlayers?.length ?? playersSeed.length));
     } catch (e) {
       console.error("Failed to hydrate state", e);
     } finally {

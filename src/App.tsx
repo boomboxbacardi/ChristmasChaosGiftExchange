@@ -17,8 +17,8 @@ function App() {
   const languageLabel = isHoliday ? `🌐 ${game.lang === 'sv' ? t('ui.lang.sv') : t('ui.lang.en')}` : game.lang === 'sv' ? t('ui.lang.sv') : t('ui.lang.en')
   const themeLabel = isHoliday
     ? game.lang === 'sv'
-      ? '✨ Original'
-      : '✨ Classic'
+      ? '🌙 Mörkt läge'
+      : '🌙 Dark mode'
     : game.lang === 'sv'
       ? '🎄 Jultema'
       : '🎄 Holiday'

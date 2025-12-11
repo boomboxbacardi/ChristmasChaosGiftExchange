@@ -15,7 +15,8 @@ type ActionTable = Record<
 
 export const WARMUP_ROLLS = 3;
 export const ENDGAME_ROLLS = 3;
-export const INITIAL_PILE = 24;
+export const PACKAGES_PER_PLAYER = 2;
+export const INITIAL_PILE = PACKAGES_PER_PLAYER * 4;
 
 export const warmupTable: ActionTable = {
   1: {
