@@ -3,10 +3,10 @@ export type Lang = "en" | "sv";
 export const messages: Record<Lang, Record<string, string>> = {
   en: {
     "ui.hero.title": "Christmas Chaos Game",
-    "ui.hero.eyebrow": "Fast, fair, and chaotic",
+    "ui.hero.eyebrow": "Gift exchange, but chaos",
     "ui.hero.subtitle":
-      "Dark-mode dice frenzy. Everyone gets equal turns; RNG delivers the drama.",
-    "ui.setup.title": "Spelare & Paket",
+      "Gift exchange with dice rolls where luck drives the drama.",
+    "ui.setup.title": "Players & Gifts",
     "ui.setup.hint": "",
     "ui.setup.playerPlaceholder": "Player {num}",
     "ui.setup.addPlayer": "+ Add player",
@@ -14,11 +14,11 @@ export const messages: Record<Lang, Record<string, string>> = {
     "ui.setup.total": "Total gifts",
     "ui.setup.randomize": "Randomize order & start",
     "ui.setup.randomizing": "Randomizing…",
-    "ui.order.heading": "Start Christmas Chaos",
-    "ui.order.subtitle": "Turn order",
+    "ui.order.heading": "Turn order",
+    "ui.order.subtitle": "Who gets to start first? 🎲",
     "ui.order.playerFallback": "Player {num}",
     "ui.order.start": "Start Christmas Chaos",
-    "ui.order.starting": "Starting…",
+    "ui.order.starting": "Wrapping all the gifts…",
     "ui.banner.endgame": "Phase 2: Endgame — three rolls each!",
     "ui.banner.body": "Hold on to your gifts — the chaos just got wilder.",
     "ui.banner.cta": "Let’s go",
@@ -37,14 +37,14 @@ export const messages: Record<Lang, Record<string, string>> = {
     "ui.debug.on": "Debug on",
     "ui.debug.off": "Debug off",
     "ui.debug.togglePhase": "Toggle phase (debug)",
-    "ui.roll.btn": "Roll action",
+    "ui.roll.btn": "Randomize",
     "ui.roll.randomizing": "Randomizing…",
     "ui.roll.finished": "Finished",
     "ui.lang.en": "EN",
     "ui.lang.sv": "SV",
-    "ui.randomizer.headingWarmup": "Phase 1 Actions",
-    "ui.randomizer.headingEndgame": "Phase 2 Actions",
-    "ui.randomizer.hint": "Highlight shows the selected action",
+    "ui.randomizer.headingWarmup": "Phase 1 — Distribute",
+    "ui.randomizer.headingEndgame": "Phase 2 — Endgame",
+    "ui.randomizer.hint": "Pick a random action",
     "ui.randomizer.hintDebug": "Click any action to trigger (debug)",
     "ui.players.title": "Players",
     "ui.players.legend": "🎁 unlocked · 🔒🎁 locked",
@@ -55,21 +55,21 @@ export const messages: Record<Lang, Record<string, string>> = {
     "ui.modal.giveVerb": "gives a gift to",
     "ui.modal.stealVerb": "steals from",
     "ui.modal.flipVerb": "swaps all gifts with",
-    "ui.modal.trashVerb": "picks a player to swap all gifts with",
+    "ui.modal.trashVerb": "will swap unwanted gifts with",
     "ui.modal.jokerPairVerb": "picks two players to swap gifts",
     "ui.modal.santaVerb": "gets to pick any gift from",
-    "ui.modal.twistVerb": "chooses direction",
+    "ui.modal.twistVerb": "rotates all gifts to",
     "ui.modal.close": "Close",
 
     // Action titles/descriptions
     "actions.warmup.1.title": "Double Grab",
-    "actions.warmup.1.desc": "Take two gifts from the pile.",
+    "actions.warmup.1.desc": "Take any two gifts from the pile.",
     "actions.warmup.2.title": "Single Grab",
     "actions.warmup.2.desc": "Take one gift from the pile.",
     "actions.warmup.3.title": "Forced Tribute",
     "actions.warmup.3.desc": "Give one of your gifts to a random player.",
     "actions.warmup.4.title": "The Grinch Tax",
-    "actions.warmup.4.desc": "Steal one unlocked gift from a random player.",
+    "actions.warmup.4.desc": "Steal any gift from a random player.",
     "actions.warmup.5.title": "Tiny Toss Right",
     "actions.warmup.5.desc": "Send your smallest unlocked gift to the right.",
     "actions.warmup.6.title": "Mega Move Left",
@@ -77,37 +77,36 @@ export const messages: Record<Lang, Record<string, string>> = {
 
     "actions.endgame.1.title": "Ice Lock",
     "actions.endgame.1.desc":
-      "Freeze one of your gifts. Frozen gifts cannot be traded, stolen, given away, or rotated.",
+      "Freeze one gift. Frozen gifts cannot be traded, stolen, given away, or rotated.",
     "actions.endgame.2.title": "Full Flip",
     "actions.endgame.2.desc":
       "Swap all unlocked gifts with a random player. Frozen gifts stay put.",
     "actions.endgame.3.title": "Trash Trade",
     "actions.endgame.3.desc":
-      "Trade unlocked gifts with a random player. Frozen gifts never move.",
+      "Two players each pick an unwanted gift and swap with each other.",
     "actions.endgame.4.title": "Joker Swap",
     "actions.endgame.4.desc":
-      "Two random players each choose an unlocked gift from the other to swap.",
+      "Two players each choose any gift from the other to swap.",
     "actions.endgame.5.title": "Santa's Hand",
-    "actions.endgame.5.desc":
-      "Give away an unlocked gift picked by another random player.",
+    "actions.endgame.5.desc": "Give away a gift chosen by another player.",
     "actions.endgame.6.title": "Twist of Fate",
     "actions.endgame.6.desc":
-      "Everyone rotates unlocked gifts one step left or right at random.",
+      "Everyone rotates all gifts one step left or right.",
 
     // Narratives
     "narr.warmup.1": "{actor} takes {count} gift(s) from the pile 🎁",
-    "narr.warmup.2": "{actor} takes {count} gift from the pile 🎁",
-    "narr.warmup.3": "{actor} chooses a gift to give to {target}  🎁✨",
-    "narr.warmup.4": "{actor} steals from {target} 🔫🎁",
+    "narr.warmup.2": "{actor} takes {count} gift(s) from the pile 🎁",
+    "narr.warmup.3": "{actor} picks a gift to give to {target} 🎁✨",
+    "narr.warmup.4": "{actor} steals a gift from {target} 🔫🎁",
     "narr.warmup.5": "Everyone sends their smallest gift to the right 🎁🤏",
     "narr.warmup.6": "Everyone sends their largest gift to the left 🫸 🎁 🫷",
 
-    "narr.endgame.1": "{actor} freezes any gift and keeps it permanently.",
+    "narr.endgame.1": "{actor} freezes any gift and keeps it permanently. 🥶🧊",
     "narr.endgame.2": "{actor} swaps unlocked gifts with {target} 🔄🎁",
     "narr.endgame.3": "{a} and {b} swap unlocked gifts 🗑️🎁↔️",
     "narr.endgame.4":
       "{a} and {b} each pick an unlocked gift from the other 🎭🎁",
-    "narr.endgame.5": "{target} picks a gift from {actor} 🎅🎁➡️",
+    "narr.endgame.5": "{target} picks any gift from {actor} 🎅🎁➡️",
     "narr.endgame.6": "Gifts rotate {dir} 🎁🔄",
 
     // Logs
@@ -127,16 +126,17 @@ export const messages: Record<Lang, Record<string, string>> = {
     "log.endgame.noSwap": "{actor} had no one to swap with.",
     "log.endgame.flip": "{actor} swaps unlocked gifts with {target}.",
     "log.endgame.trash.notEnough":
-      "Trash Trade fizzled — nobody else had unlocked gifts.",
-    "log.endgame.trash.failed": "Trash Trade fizzled — selection failed.",
-    "log.endgame.trash.missing":
-      "Trash Trade fizzled — missing unlocked gifts.",
+      "Trash Trade failed — nobody else had unlocked gifts.",
+    "log.endgame.trash.failed":
+      "Trash Trade failed — selection could not be made.",
+    "log.endgame.trash.missing": "Trash Trade failed — missing unlocked gifts.",
     "log.endgame.trash.swap":
       "Trash Trade: {actor} swaps unlocked gifts with {target}.",
     "log.endgame.joker.notEnough":
-      "Joker Swap fizzled — need two players with unlocked gifts.",
-    "log.endgame.joker.failed": "Joker Swap fizzled — selection failed.",
-    "log.endgame.joker.missing": "Joker Swap fizzled — missing unlocked gifts.",
+      "Joker Swap failed — need two players with unlocked gifts.",
+    "log.endgame.joker.failed":
+      "Joker Swap failed — selection could not be made.",
+    "log.endgame.joker.missing": "Joker Swap failed — missing unlocked gifts.",
     "log.endgame.joker.swap":
       "Joker Swap: {a} and {b} each choose an unlocked gift from the other.",
     "log.endgame.santa.none": "{actor} had nothing to hand over.",
