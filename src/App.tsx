@@ -23,6 +23,25 @@ function App() {
       ? '🎄 Jultema'
       : '🎄 Holiday'
 
+  const setupActions = (
+    <div className="hero-actions">
+      <button
+        className={`secondary ${isHoliday ? 'active' : ''}`}
+        onClick={toggleTheme}
+        aria-label={game.lang === 'sv' ? 'Växla jultema' : 'Toggle holiday theme'}
+      >
+        {themeLabel}
+      </button>
+      <button
+        className="secondary"
+        onClick={() => game.setLang((prev) => (prev === 'en' ? 'sv' : 'en'))}
+        aria-label="Toggle language"
+      >
+        {languageLabel}
+      </button>
+    </div>
+  )
+
   const orderModalData =
     game.showOrderModal
       ? {
@@ -55,6 +74,7 @@ function App() {
         eyebrow={heroEyebrow}
         title={heroTitle}
         subtitle={heroSubtitle}
+        actions={setupActions}
         setupTitle={t('ui.setup.title')}
         setupHint={t('ui.setup.hint')}
         players={game.setupPlayers}

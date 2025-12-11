@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { HeroHeader } from '../molecules/HeroHeader'
 import { SectionHeader } from '../atoms/SectionHeader'
 import { SetupList } from '../molecules/SetupList'
@@ -34,6 +35,7 @@ type SetupTemplateProps = {
   isStarting: boolean
   orderStartLabel: string
   orderStartingLabel: string
+  actions?: ReactNode
 }
 
 export const SetupTemplate = ({
@@ -67,9 +69,10 @@ export const SetupTemplate = ({
   isStarting,
   orderStartLabel,
   orderStartingLabel,
+  actions,
 }: SetupTemplateProps) => (
   <div className="page">
-    <HeroHeader eyebrow={eyebrow} title={title} subtitle={subtitle} />
+    <HeroHeader eyebrow={eyebrow} title={title} subtitle={subtitle} actions={actions} />
     <section className="layout">
       <div className="left-panel">
         <div className="block">
