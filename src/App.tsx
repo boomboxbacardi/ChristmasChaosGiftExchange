@@ -3,10 +3,25 @@ import { WARMUP_ROLLS } from './constants/tables'
 import { useChaosGame } from './hooks/useChaosGame'
 import { SetupTemplate } from './components/templates/SetupTemplate'
 import { GameTemplate } from './components/templates/GameTemplate'
+import { useTheme } from './hooks/useTheme'
 
 function App() {
   const game = useChaosGame()
   const { t } = game
+  const { isHoliday, toggleTheme } = useTheme()
+
+  const heroEyebrow = isHoliday ? `✨ ${t('ui.hero.eyebrow')}` : t('ui.hero.eyebrow')
+  const heroTitle = isHoliday ? `${t('ui.hero.title')} 🎄` : t('ui.hero.title')
+  const heroSubtitle = isHoliday ? `${t('ui.hero.subtitle')} 🎁` : t('ui.hero.subtitle')
+  const resetLabel = isHoliday ? `🎁 ${t('ui.reset')}` : t('ui.reset')
+  const languageLabel = isHoliday ? `🌐 ${game.lang === 'sv' ? t('ui.lang.sv') : t('ui.lang.en')}` : game.lang === 'sv' ? t('ui.lang.sv') : t('ui.lang.en')
+  const themeLabel = isHoliday
+    ? game.lang === 'sv'
+      ? '✨ Original'
+      : '✨ Classic'
+    : game.lang === 'sv'
+      ? '🎄 Jultema'
+      : '🎄 Holiday'
 
   const orderModalData =
     game.showOrderModal
@@ -37,9 +52,9 @@ function App() {
   if (game.phase === 'setup') {
     return (
       <SetupTemplate
-        eyebrow={t('ui.hero.eyebrow')}
-        title={t('ui.hero.title')}
-        subtitle={t('ui.hero.subtitle')}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
         setupTitle={t('ui.setup.title')}
         setupHint={t('ui.setup.hint')}
         players={game.setupPlayers}
@@ -54,8 +69,8 @@ function App() {
         pileValue={game.setupPile}
         onPileChange={game.setSetupPile}
         onRandomize={game.startGameWithSetup}
-        randomizeLabel={t('ui.setup.randomize')}
-        randomizingLabel={t('ui.setup.randomizing')}
+        randomizeLabel={isHoliday ? `${t('ui.setup.randomize')} 🎲🎁` : t('ui.setup.randomize')}
+        randomizingLabel={isHoliday ? `${t('ui.setup.randomizing')} 🎲` : t('ui.setup.randomizing')}
         isRandomizing={game.isSetupRandomizing}
         orderHeading={t('ui.order.heading')}
         orderSubtitle={t('ui.order.subtitle')}
@@ -74,7 +89,7 @@ function App() {
   const heroActions = (
     <>
       <button className="secondary" onClick={game.resetGame}>
-        {t('ui.reset')}
+        {resetLabel}
       </button>
       <button className={`secondary ${game.debugMode ? 'active' : ''}`} onClick={() => game.setDebugMode((v) => !v)}>
         {game.debugMode ? t('ui.debug.on') : t('ui.debug.off')}
@@ -85,11 +100,18 @@ function App() {
         </button>
       )}
       <button
+        className={`secondary ${isHoliday ? 'active' : ''}`}
+        onClick={toggleTheme}
+        aria-label={game.lang === 'sv' ? 'Växla jultema' : 'Toggle holiday theme'}
+      >
+        {themeLabel}
+      </button>
+      <button
         className="secondary"
         onClick={() => game.setLang((prev) => (prev === 'en' ? 'sv' : 'en'))}
         aria-label="Toggle language"
       >
-        {game.lang === 'sv' ? t('ui.lang.sv') : t('ui.lang.en')}
+        {languageLabel}
       </button>
     </>
   )
@@ -97,9 +119,9 @@ function App() {
   return (
     <GameTemplate
       hero={{
-        eyebrow: t('ui.hero.eyebrow'),
-        title: t('ui.hero.title'),
-        subtitle: t('ui.hero.subtitle'),
+        eyebrow: heroEyebrow,
+        title: heroTitle,
+        subtitle: heroSubtitle,
         actions: heroActions,
       }}
       status={{
@@ -116,28 +138,28 @@ function App() {
       players={game.players}
       currentPlayerIndex={game.currentPlayerIndex}
       phase={game.phase}
-      playerTitle={t('ui.players.title')}
+      playerTitle={isHoliday ? `${t('ui.players.title')} 🎁` : t('ui.players.title')}
       playerLegend={t('ui.players.legend')}
       playerEmptyLabel={t('ui.players.empty')}
       log={game.log}
-      logTitle={t('ui.log.title')}
+      logTitle={isHoliday ? `${t('ui.log.title')} 📜` : t('ui.log.title')}
       logSubtitle={t('ui.log.subtitle')}
       logEmptyLabel={t('ui.log.empty')}
       randomizer={{
         phase: game.phase,
         phaseTable: game.phaseTable,
-        headingWarmup: t('ui.randomizer.headingWarmup'),
-        headingEndgame: t('ui.randomizer.headingEndgame'),
-        hint: t('ui.randomizer.hint'),
+        headingWarmup: isHoliday ? `🎄 ${t('ui.randomizer.headingWarmup')}` : t('ui.randomizer.headingWarmup'),
+        headingEndgame: isHoliday ? `❄️ ${t('ui.randomizer.headingEndgame')}` : t('ui.randomizer.headingEndgame'),
+        hint: isHoliday ? `${t('ui.randomizer.hint')} ✨` : t('ui.randomizer.hint'),
         hintDebug: t('ui.randomizer.hintDebug'),
         highlightedIndex: game.highlightedIndex,
         isFinalResult: game.isFinalResult,
         canRoll: game.canRoll,
         isSpinning: game.isSpinning,
         onRoll: game.handleRoll,
-        rollLabel: t('ui.roll.btn'),
-        rollLabelSpinning: t('ui.roll.randomizing'),
-        rollLabelFinished: t('ui.roll.finished'),
+        rollLabel: isHoliday ? `🎲 ${t('ui.roll.btn')}` : t('ui.roll.btn'),
+        rollLabelSpinning: isHoliday ? `${t('ui.roll.randomizing')} 🎁` : t('ui.roll.randomizing'),
+        rollLabelFinished: isHoliday ? `${t('ui.roll.finished')} ✨` : t('ui.roll.finished'),
         players: game.players,
         currentPlayerIndex: game.currentPlayerIndex,
         pileCount: game.pileCount,
@@ -147,8 +169,8 @@ function App() {
       rules={{
         warmupTable: game.localizedWarmupTable,
         endgameTable: game.localizedEndgameTable,
-        warmupTitle: t('ui.rules.warmup'),
-        endgameTitle: t('ui.rules.endgame'),
+        warmupTitle: isHoliday ? `🎁 ${t('ui.rules.warmup')}` : t('ui.rules.warmup'),
+        endgameTitle: isHoliday ? `🎅 ${t('ui.rules.endgame')}` : t('ui.rules.endgame'),
         lockedNote: t('ui.rules.lockedNote'),
       }}
       giveAwayModal={{

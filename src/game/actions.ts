@@ -335,7 +335,9 @@ export const applyEndgameRoll = (
       entries.push({ id: uid(), message: t("log.endgame.trash.failed") });
       return { players: updatedPlayers, pile, logEntries: entries, narrative };
     }
-    const targetUnlocked = target.player.packages.filter((pkg) => !pkg.locked);
+    const targetUnlocked = target.player.packages.filter(
+      (pkg: Player["packages"][number]) => !pkg.locked
+    );
     if (!targetUnlocked.length) {
       entries.push({ id: uid(), message: t("log.endgame.trash.missing") });
       return { players: updatedPlayers, pile, logEntries: entries, narrative };

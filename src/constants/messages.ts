@@ -232,7 +232,7 @@ export const messages: Record<Lang, Record<string, string>> = {
       "Byt alla olåsta paket med en slumpmässig spelare. Frusna paket ligger kvar. 🔄🎁",
     "actions.endgame.3.title": "Trash Trade",
     "actions.endgame.3.desc":
-      "Tvp spelare väljer varsitt oönskat paket och byter med varandra 🗑️🎁↔️",
+      "Två spelare väljer varsitt oönskat paket och byter med varandra 🗑️🎁↔️",
     "actions.endgame.4.title": "Joker Swap",
     "actions.endgame.4.desc":
       "Två spelare väljer varsitt valfritt paket från den andre och byter 🎭🎁↔️",

@@ -1,10 +1,8 @@
 #root {
   margin: 0 auto;
   min-height: 100vh;
-  background: radial-gradient(circle at 20% 20%, #1f2a38, #0f1724 40%),
-    radial-gradient(circle at 80% 0%, #14202e, #0c121d 35%),
-    #0b111a;
-  color: #e8f0ff;
+  background: var(--page-background);
+  color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -17,31 +15,29 @@
   gap: 24px;
 }
 .page.endgame {
-  background: radial-gradient(circle at 20% 20%, rgba(255, 110, 0, 0.18), transparent 32%),
-    radial-gradient(circle at 70% 25%, rgba(255, 0, 128, 0.16), transparent 35%),
-    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.06), transparent 48%),
-    #0b0d14;
-  box-shadow: 0 0 0 0 rgba(255, 64, 64, 0.24);
+  background: var(--endgame-background);
+  border: 2px solid var(--endgame-border);
+  box-shadow: var(--endgame-glow);
   animation: pulse-bg 2.6s ease-in-out infinite, flicker 1.4s linear infinite;
   border-radius: 18px;
 }
 
 @keyframes pulse-bg {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 64, 64, 0.2);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-hot) 20%, transparent);
   }
   50% {
-    box-shadow: 0 0 50px 10px rgba(255, 64, 64, 0.16);
+    box-shadow: 0 0 50px 10px color-mix(in srgb, var(--accent-hot) 16%, transparent);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 64, 64, 0.2);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-hot) 20%, transparent);
   }
 }
 
 @keyframes flicker {
-  0% { filter: drop-shadow(0 0 0 rgba(255, 140, 0, 0.25)); }
-  50% { filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.35)); }
-  100% { filter: drop-shadow(0 0 0 rgba(255, 140, 0, 0.25)); }
+  0% { filter: drop-shadow(0 0 0 color-mix(in srgb, var(--accent-warm) 25%, transparent)); }
+  50% { filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent-warm) 35%, transparent)); }
+  100% { filter: drop-shadow(0 0 0 color-mix(in srgb, var(--accent-warm) 25%, transparent)); }
 }
 
 .hero {
@@ -55,7 +51,7 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 12px;
-  color: #6bdba7;
+  color: var(--accent);
   margin: 0 0 6px;
 }
 
@@ -66,7 +62,7 @@
 
 .lede {
   margin: 0;
-  color: #a7b7d1;
+  color: var(--text-secondary);
 }
 
 .hero-actions {
@@ -79,18 +75,18 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(108, 219, 167, 0.12);
-  color: #6bdba7;
-  border: 1px solid rgba(108, 219, 167, 0.3);
+  background: var(--pill-bg);
+  color: var(--pill-color);
+  border: 1px solid var(--pill-border);
   padding: 10px 14px;
   border-radius: 999px;
   font-weight: 600;
   font-size: 14px;
 }
 .endgame .pill {
-  background: rgba(255, 107, 107, 0.16);
-  color: #ffb0b0;
-  border-color: rgba(255, 107, 107, 0.35);
+  background: var(--pill-bg-endgame);
+  color: var(--pill-color-endgame);
+  border-color: var(--pill-border-endgame);
 }
 
 .pill.small {
@@ -103,41 +99,42 @@
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
   align-items: center;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 16px;
 }
 .endgame .status {
-  border-color: rgba(255, 107, 107, 0.28);
-  box-shadow: 0 10px 40px rgba(255, 0, 128, 0.12);
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
 }
 
 .endgame .hero h1 {
-  color: #ffc9a4;
-  text-shadow: 0 0 18px rgba(255, 120, 64, 0.5);
+  color: var(--endgame-text);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--accent-hot) 65%, transparent);
 }
 
 .endgame .primary {
-  background: linear-gradient(120deg, #ff6b00, #ff007a);
-  box-shadow: 0 12px 30px rgba(255, 0, 128, 0.35);
+  background: linear-gradient(120deg, var(--accent-warm), var(--accent-hot));
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--accent-hot) 45%, transparent);
 }
 
 .endgame .secondary {
-  border-color: rgba(255, 120, 64, 0.45);
-  color: #ffc9a4;
-  box-shadow: 0 8px 24px rgba(255, 0, 128, 0.2);
+  border-color: var(--endgame-border);
+  color: var(--endgame-text);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent-hot) 28%, transparent);
 }
 
 .stat {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface-card-weak);
+  border: 1px solid var(--border-soft);
   border-radius: 12px;
   padding: 12px;
 }
 
 .label {
-  color: #8fa0bc;
+  color: var(--text-muted);
   font-size: 12px;
 }
 
@@ -177,10 +174,15 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 12px;
+}
+.endgame .player-list {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
 }
 
 .player-row {
@@ -194,8 +196,15 @@
 }
 
 .player-row.active {
-  border-color: #6bdba7;
-  background: rgba(107, 219, 167, 0.1);
+  border-color: var(--accent);
+  background: var(--accent-tint);
+}
+.endgame .player-row {
+  border-color: var(--endgame-border);
+}
+.endgame .player-row.active {
+  border-color: var(--endgame-border);
+  background: var(--endgame-surface);
 }
 
 .gifts {
@@ -214,10 +223,15 @@
 }
 
 .block {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 12px;
+}
+.endgame .block {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
 }
 
 .log ul {
@@ -230,18 +244,23 @@
 }
 
 .log li {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface-card-weak);
+  border: 1px solid var(--border-soft);
   border-radius: 10px;
   padding: 10px 12px;
 }
+.endgame .log li {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
+}
 
 .empty-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  background: var(--surface-card-weak);
+  border: 1px dashed var(--border);
   border-radius: 12px;
   padding: 14px;
-  color: #8fa0bc;
+  color: var(--text-muted);
 }
 
 .randomizer {
@@ -262,22 +281,31 @@
   justify-content: space-between;
   gap: 10px;
   padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--surface-card-weak);
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .action-row.active {
-  border-color: rgba(107, 219, 167, 0.4);
-  background: rgba(107, 219, 167, 0.06);
+  border-color: var(--accent);
+  background: var(--accent-tint-weak);
 }
 
 .action-row.final {
-  border-color: #6bdba7;
-  background: rgba(107, 219, 167, 0.12);
-  box-shadow: 0 0 0 1px rgba(107, 219, 167, 0.25);
+  border-color: var(--accent);
+  background: var(--accent-tint);
+  box-shadow: 0 0 0 1px var(--accent-border-strong);
   animation: pulse 1s ease-in-out infinite;
+}
+.endgame .action-row {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
+}
+.endgame .action-row.final {
+  border-color: var(--endgame-border);
+  box-shadow: 0 0 0 1px var(--endgame-border), var(--endgame-glow);
 }
 
 .action-row.disabled {
@@ -294,18 +322,18 @@
 
 .arrow {
   font-size: 20px;
-  color: #e8f0ff;
+  color: var(--text-primary);
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(107, 219, 167, 0.45);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
   }
   70% {
-    box-shadow: 0 0 0 12px rgba(107, 219, 167, 0);
+    box-shadow: 0 0 0 12px color-mix(in srgb, var(--accent) 0%, transparent);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(107, 219, 167, 0);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 0%, transparent);
   }
 }
 
@@ -327,11 +355,11 @@
   inset: -6px;
   background: conic-gradient(
     from 45deg,
-    rgba(255, 120, 64, 0.35),
-    rgba(255, 0, 128, 0.3),
-    rgba(255, 200, 64, 0.35),
-    rgba(255, 0, 128, 0.3),
-    rgba(255, 120, 64, 0.35)
+    color-mix(in srgb, var(--accent-warm) 70%, transparent),
+    color-mix(in srgb, var(--accent-hot) 70%, transparent),
+    color-mix(in srgb, var(--accent-warm) 70%, transparent),
+    color-mix(in srgb, var(--accent-hot) 70%, transparent),
+    color-mix(in srgb, var(--accent-warm) 70%, transparent)
   );
   opacity: 0.75;
   filter: blur(14px);
@@ -344,14 +372,15 @@
   position: absolute;
   inset: 0;
   border-radius: 12px;
-  box-shadow: 0 0 26px rgba(255, 120, 64, 0.42), 0 0 36px rgba(255, 0, 128, 0.32);
+  box-shadow: 0 0 26px color-mix(in srgb, var(--accent-warm) 42%, transparent),
+    0 0 36px color-mix(in srgb, var(--accent-hot) 32%, transparent);
   opacity: 0.9;
   animation: pulse-glow 1.8s ease-in-out infinite;
 }
 
 .primary.vibe {
   transform: translateZ(0);
-  background: linear-gradient(120deg, #ff6b00, #ff007a, #ffc840);
+  background: linear-gradient(120deg, var(--accent-warm), var(--accent-hot), #ffc840);
   background-size: 200% 200%;
   animation: hue-shift 2.8s ease-in-out infinite, pulse-glow 1.8s ease-in-out infinite;
 }
@@ -375,14 +404,19 @@
 }
 
 .last-roll {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 12px;
 }
 .endgame .last-roll {
-  border-color: rgba(255, 107, 107, 0.24);
-  box-shadow: 0 8px 24px rgba(255, 0, 128, 0.12);
+  border-color: var(--accent-border-strong);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent-hot) 12%, transparent);
+}
+.endgame .last-roll {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
 }
 
 .roll-card {
@@ -390,22 +424,27 @@
   display: flex;
   gap: 12px;
   align-items: center;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--surface-card-weak);
+  border: 1px solid var(--border-soft);
   border-radius: 12px;
   padding: 12px;
 }
+.endgame .roll-card {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
+}
 
 .roll-card.empty {
-  color: #8fa0bc;
+  color: var(--text-muted);
   justify-content: center;
 }
 
 .roll-face {
-  background: #1b2533;
+  background: var(--surface-highlight);
   border-radius: 12px;
   padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
 }
 
 .roll-title {
@@ -413,12 +452,12 @@
 }
 
 .roll-desc {
-  color: #8fa0bc;
+  color: var(--text-secondary);
 }
 
 .roll-phase {
   font-size: 12px;
-  color: #6bdba7;
+  color: var(--accent);
   margin-top: 4px;
 }
 
@@ -426,10 +465,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 12px;
+}
+.endgame .rules {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
+  box-shadow: var(--endgame-glow);
 }
 
 .rules-note {
@@ -452,13 +496,17 @@
   gap: 10px;
   align-items: center;
   padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-soft);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--surface-card-weak);
+}
+.endgame .rules-col li {
+  background: var(--endgame-surface);
+  border-color: var(--endgame-border);
 }
 
 .muted {
-  color: #8fa0bc;
+  color: var(--text-muted);
 }
 
 button {
@@ -476,10 +524,10 @@ button:disabled {
 }
 
 .primary {
-  background: linear-gradient(135deg, #6bdba7, #3db8ff);
-  color: #0a0f18;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: var(--accent-contrast);
   border: none;
-  box-shadow: 0 6px 20px rgba(59, 196, 199, 0.3);
+  box-shadow: var(--shadow-strong);
 }
 
 .primary:hover {
@@ -487,14 +535,14 @@ button:disabled {
 }
 
 .secondary {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #e8f0ff;
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
 }
 
 .secondary.active {
-  border-color: #6bdba7;
-  box-shadow: 0 0 12px rgba(107, 219, 167, 0.35);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 /* Modal Styles */
@@ -502,7 +550,7 @@ button:disabled {
   position: fixed;
   inset: 0;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--surface-overlay);
   display: grid;
   place-items: center;
   z-index: 9999;
@@ -512,8 +560,8 @@ button:disabled {
 
 .modal {
   position: relative;
-  background: #0d1726;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--surface-panel);
+  border: 1px solid var(--border-strong);
   border-radius: 16px;
   padding: 32px;
   max-width: 420px;
@@ -535,8 +583,8 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  color: #e8f0ff;
+  background: var(--surface-card);
+  color: var(--text-primary);
   border: none;
   border-radius: 999px;
   width: 32px;
@@ -550,7 +598,7 @@ button:disabled {
 }
 
 .modal-close:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--surface-card-weak);
 }
 
 .modal-close:disabled {
@@ -561,12 +609,12 @@ button:disabled {
 .modal-content h2 {
   margin: 0 0 24px;
   font-size: 24px;
-  color: #e8f0ff;
+  color: var(--text-primary);
 }
 
 .modal-line {
   font-size: 18px;
-  color: #e8f0ff;
+  color: var(--text-primary);
   margin: 0 0 10px;
   line-height: 1.6;
   min-height: 30px;
@@ -621,12 +669,12 @@ button:disabled {
   align-items: center;
   gap: 10px;
   font-size: 16px;
-  color: #e8f0ff;
+  color: var(--text-primary);
 }
 
 .order-badge {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--surface-card);
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
   padding: 4px 10px;
   min-width: 32px;
@@ -647,47 +695,47 @@ button:disabled {
 }
 
 .target {
-  text-shadow: 0 0 10px rgba(107, 219, 167, 0.7);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent);
 }
 
 .debug-clickable {
   cursor: pointer;
-  border-color: rgba(107, 219, 167, 0.25);
+  border-color: var(--accent-tint);
 }
 
 .debug-clickable:hover {
-  background: rgba(107, 219, 167, 0.08);
-  border-color: rgba(107, 219, 167, 0.5);
+  background: var(--accent-tint);
+  border-color: var(--accent);
 }
 
 .phase-modal {
-  background: radial-gradient(circle at 20% 20%, rgba(255, 107, 0, 0.16), transparent 45%),
-    radial-gradient(circle at 80% 0%, rgba(255, 0, 128, 0.14), transparent 40%),
-    #0d1726;
-  border: 1px solid rgba(255, 150, 100, 0.35);
+  background: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--accent-warm) 16%, transparent), transparent 45%),
+    radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--accent-hot) 14%, transparent), transparent 40%),
+    var(--surface-panel);
+  border: 1px solid color-mix(in srgb, var(--accent-warm) 35%, transparent);
 }
 
 .phase-modal h2 {
-  color: #ffe9dc;
+  color: color-mix(in srgb, var(--accent-warm) 75%, var(--text-primary) 25%);
   margin-bottom: 12px;
 }
 
 .phase-modal .modal-line {
-  color: #ffd8c1;
+  color: color-mix(in srgb, var(--accent-warm) 65%, var(--text-primary) 35%);
 }
 
 .pulse {
-  animation: pulse-bg 1.1s ease-in-out infinite;
+  animation: pulse-text 1.1s ease-in-out infinite;
 }
 
 .fly {
   animation: gift-fly 1.5s linear infinite;
 }
 
-@keyframes pulse-bg {
-  0% { text-shadow: 0 0 0 rgba(107, 219, 167, 0.2); }
-  50% { text-shadow: 0 0 18px rgba(107, 219, 167, 0.55); }
-  100% { text-shadow: 0 0 0 rgba(107, 219, 167, 0.2); }
+@keyframes pulse-text {
+  0% { text-shadow: 0 0 0 color-mix(in srgb, var(--accent) 20%, transparent); }
+  50% { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 55%, transparent); }
+  100% { text-shadow: 0 0 0 color-mix(in srgb, var(--accent) 20%, transparent); }
 }
 
 @keyframes gift-fly {
