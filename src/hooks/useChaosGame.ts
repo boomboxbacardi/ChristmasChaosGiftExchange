@@ -369,9 +369,13 @@ export const useChaosGame = () => {
     setPendingOrder(ordered);
     setPendingPlayers(playerObjs);
     setPendingPile(setupPile);
-    setShowOrderModal(true);
     setIsSetupRandomizing(false);
-    setSetupHighlightedIndex(null);
+
+    // Pause briefly so the selected player stays visible before showing the modal
+    setTimeout(() => {
+      setShowOrderModal(true);
+      setSetupHighlightedIndex(null);
+    }, 1000);
   };
 
   const runPendingPhaseTransition = (data?: {
@@ -1132,7 +1136,10 @@ export const useChaosGame = () => {
       setLog(parsed.log ?? []);
       setLastOutcome(parsed.lastOutcome);
       setSetupPlayers(parsed.setupPlayers ?? playersSeed.map((p) => p.name));
-      setSetupPile(parsed.setupPile ?? computeDefaultPile(parsed.setupPlayers?.length ?? playersSeed.length));
+      setSetupPile(
+        parsed.setupPile ??
+          computeDefaultPile(parsed.setupPlayers?.length ?? playersSeed.length)
+      );
     } catch (e) {
       console.error("Failed to hydrate state", e);
     } finally {
