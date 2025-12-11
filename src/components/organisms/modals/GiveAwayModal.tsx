@@ -24,8 +24,21 @@ export const GiveAwayModal: React.FC<Props> = ({
   const displayActor = actorName ?? currentPlayerName ?? '—'
   const displayTarget = giveAwayTarget ?? (isRandomizingTarget ? '…' : '—')
 
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClose()
+  }
+
   return (
-    <div className="modal-overlay" onClick={!isRandomizingTarget ? onClose : undefined}>
+    <div
+      className="modal-overlay"
+      onMouseDown={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      onClick={handleOverlayClick}
+    >
       <div className="modal wide" onClick={(e) => e.stopPropagation()}>
         <button
           className="modal-close"

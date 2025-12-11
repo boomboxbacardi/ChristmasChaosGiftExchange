@@ -307,18 +307,20 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface-card-weak);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .action-row.active {
   border-color: var(--accent);
-  background: var(--accent-tint-weak);
+  background: color-mix(in srgb, var(--surface-card-weak) 55%, var(--accent-tint) 45%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 65%, transparent);
+  color: var(--text-primary);
 }
 
 .action-row.final {
   border-color: var(--accent);
-  background: var(--accent-tint);
-  box-shadow: 0 0 0 1px var(--accent-border-strong);
+  background: color-mix(in srgb, var(--surface-card-weak) 35%, var(--accent-tint) 65%);
+  box-shadow: 0 0 0 2px var(--accent-border-strong);
   animation: pulse 1s ease-in-out infinite;
 }
 .endgame .action-row {
@@ -326,9 +328,16 @@
   border-color: var(--endgame-border);
   box-shadow: var(--endgame-glow);
 }
+.endgame .action-row.active {
+  border-color: var(--accent-hot);
+  background: color-mix(in srgb, var(--endgame-surface) 45%, var(--accent-tint) 55%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-hot) 70%, transparent), var(--endgame-glow);
+  color: var(--text-primary);
+}
 .endgame .action-row.final {
-  border-color: var(--endgame-border);
-  box-shadow: 0 0 0 1px var(--endgame-border), var(--endgame-glow);
+  border-color: var(--accent-hot);
+  background: color-mix(in srgb, var(--endgame-surface) 35%, var(--accent-tint) 65%);
+  box-shadow: 0 0 0 2px var(--accent-hot), var(--endgame-glow);
 }
 
 .action-row.disabled {
@@ -711,7 +720,7 @@ input:focus-visible {
   position: fixed;
   inset: 0;
   height: 100vh;
-  background: var(--surface-overlay);
+  /* background: var(--surface-overlay); */
   display: grid;
   place-items: center;
   z-index: 9999;

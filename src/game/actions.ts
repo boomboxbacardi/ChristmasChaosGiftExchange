@@ -317,8 +317,7 @@ export const applyEndgameRoll = (
 
     const available = updatedPlayers
       .map((p, idx) => ({ player: p, idx }))
-      .filter((_, idx) => idx !== actorIndex)
-      .filter(({ player }) => player.packages.some((pkg) => !pkg.locked));
+      .filter((_, idx) => idx !== actorIndex);
     if (!available.length) {
       entries.push({ id: uid(), message: t("log.endgame.trash.notEnough") });
       return { players: updatedPlayers, pile, logEntries: entries, narrative };
@@ -339,27 +338,36 @@ export const applyEndgameRoll = (
       (pkg: Player["packages"][number]) => !pkg.locked
     );
     if (!targetUnlocked.length) {
-      entries.push({ id: uid(), message: t("log.endgame.trash.missing") });
-      return { players: updatedPlayers, pile, logEntries: entries, narrative };
+      // Target has nothing to give; actor hands over one unlocked gift
+      const gift =
+        actorUnlocked[Math.floor(Math.random() * actorUnlocked.length)];
+      actor.packages = actor.packages.filter((pkg) => pkg.id !== gift.id);
+      target.player.packages.push(gift);
+      entries.push({
+        id: uid(),
+        message: t("log.endgame.trash.swap", {
+          actor: actor.name,
+          target: target.player.name,
+        }),
+      });
+    } else {
+      const actorSplit = splitLocked(actor);
+      const targetSplit = splitLocked(target.player);
+      actor.packages = [...actorSplit.locked, ...targetSplit.unlocked];
+      target.player.packages = [...targetSplit.locked, ...actorSplit.unlocked];
+      entries.push({
+        id: uid(),
+        message: t("log.endgame.trash.swap", {
+          actor: actor.name,
+          target: target.player.name,
+        }),
+      });
     }
-    const actorSplit = splitLocked(actor);
-    const targetSplit = splitLocked(target.player);
-    actor.packages = [...actorSplit.locked, ...targetSplit.unlocked];
-    target.player.packages = [...targetSplit.locked, ...actorSplit.unlocked];
-    entries.push({
-      id: uid(),
-      message: t("log.endgame.trash.swap", {
-        actor: actor.name,
-        target: target.player.name,
-      }),
-    });
     return { players: updatedPlayers, pile, logEntries: entries, narrative };
   }
 
   if (roll === 4) {
-    const available = updatedPlayers
-      .map((p, idx) => ({ player: p, idx }))
-      .filter(({ player }) => player.packages.some((pkg) => !pkg.locked));
+    const available = updatedPlayers.map((p, idx) => ({ player: p, idx }));
     if (available.length < 2) {
       entries.push({ id: uid(), message: t("log.endgame.joker.notEnough") });
       return { players: updatedPlayers, pile, logEntries: entries, narrative };
@@ -389,22 +397,38 @@ export const applyEndgameRoll = (
     const secondUnlocked = second.player.packages.filter(
       (pkg: Player["packages"][number]) => !pkg.locked
     );
-    if (!firstUnlocked.length || !secondUnlocked.length) {
+    if (!firstUnlocked.length && !secondUnlocked.length) {
       entries.push({ id: uid(), message: t("log.endgame.joker.missing") });
       return { players: updatedPlayers, pile, logEntries: entries, narrative };
     }
-    const firstPick =
-      firstUnlocked[Math.floor(Math.random() * firstUnlocked.length)];
-    const secondPick =
-      secondUnlocked[Math.floor(Math.random() * secondUnlocked.length)];
-    first.player.packages = first.player.packages.filter(
-      (pkg: Player["packages"][number]) => pkg.id !== firstPick.id
-    );
-    second.player.packages = second.player.packages.filter(
-      (pkg: Player["packages"][number]) => pkg.id !== secondPick.id
-    );
-    first.player.packages.push(secondPick);
-    second.player.packages.push(firstPick);
+    if (firstUnlocked.length && !secondUnlocked.length) {
+      const firstPick =
+        firstUnlocked[Math.floor(Math.random() * firstUnlocked.length)];
+      first.player.packages = first.player.packages.filter(
+        (pkg: Player["packages"][number]) => pkg.id !== firstPick.id
+      );
+      second.player.packages.push(firstPick);
+    } else if (!firstUnlocked.length && secondUnlocked.length) {
+      const secondPick =
+        secondUnlocked[Math.floor(Math.random() * secondUnlocked.length)];
+      second.player.packages = second.player.packages.filter(
+        (pkg: Player["packages"][number]) => pkg.id !== secondPick.id
+      );
+      first.player.packages.push(secondPick);
+    } else {
+      const firstPick =
+        firstUnlocked[Math.floor(Math.random() * firstUnlocked.length)];
+      const secondPick =
+        secondUnlocked[Math.floor(Math.random() * secondUnlocked.length)];
+      first.player.packages = first.player.packages.filter(
+        (pkg: Player["packages"][number]) => pkg.id !== firstPick.id
+      );
+      second.player.packages = second.player.packages.filter(
+        (pkg: Player["packages"][number]) => pkg.id !== secondPick.id
+      );
+      first.player.packages.push(secondPick);
+      second.player.packages.push(firstPick);
+    }
     entries.push({
       id: uid(),
       message: t("log.endgame.joker.swap", {

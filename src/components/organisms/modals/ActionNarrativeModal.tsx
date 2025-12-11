@@ -1,3 +1,5 @@
+import React from 'react'
+
 type Props = {
   isOpen: boolean
   title: string
@@ -9,8 +11,21 @@ type Props = {
 export const ActionNarrativeModal = ({ isOpen, title, narrative, onClose, closeLabel }: Props) => {
   if (!isOpen) return null
 
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClose()
+  }
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="modal-overlay"
+      onMouseDown={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      onClick={handleOverlayClick}
+    >
       <div className="modal wide" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label={closeLabel}>
           ×

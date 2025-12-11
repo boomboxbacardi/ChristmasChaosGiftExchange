@@ -1,3 +1,5 @@
+import React from 'react'
+
 type OrderModalProps = {
   isOpen: boolean
   order?: string[]
@@ -24,11 +26,23 @@ export const OrderModal = ({
   if (!isOpen) return null
 
   const hasOrder = Boolean(order?.length)
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClose()
+  }
 
   return (
-    <div className="modal-overlay" onClick={() => (isStarting ? undefined : onClose())}>
+    <div
+      className="modal-overlay"
+      onMouseDown={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      onClick={handleOverlayClick}
+    >
       <div className="modal wide" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={() => (isStarting ? undefined : onClose())} disabled={isStarting}>
+        <button className="modal-close" onClick={onClose} disabled={isStarting}>
           ×
         </button>
         <div className="modal-content">

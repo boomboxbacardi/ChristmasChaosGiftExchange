@@ -190,8 +190,8 @@ export const messages: Record<Lang, Record<string, string>> = {
     "ui.log.title": "Actionlogg",
     "ui.log.subtitle": "Senaste först",
     "ui.log.empty": "Inga actions ännu.",
-    "ui.modal.giveVerb": "ger ett paket till",
-    "ui.modal.stealVerb": "stjäl från",
+    "ui.modal.giveVerb": "väljer ett av sina paket och ger till",
+    "ui.modal.stealVerb": "stjäl valfritt paket från",
     "ui.modal.flipVerb": "byter alla paket med",
     "ui.modal.trashVerb": "ska byta oönskade paket med",
     "ui.modal.jokerPairVerb": "väljer två spelare som byter paket",
@@ -224,10 +224,10 @@ export const messages: Record<Lang, Record<string, string>> = {
       "Byt alla olåsta paket med en slumpmässig spelare. Frusna paket ligger kvar. 🔄🎁",
     "actions.endgame.3.title": "Trash Trade",
     "actions.endgame.3.desc":
-      "Två spelare väljer varsitt oönskat paket och byter med varandra 🗑️🎁↔️",
+      "Två spelare väljer varsitt oönskat paket (om det finns) och byter med varandra 🗑️🎁↔️",
     "actions.endgame.4.title": "Joker Swap",
     "actions.endgame.4.desc":
-      "Två spelare väljer varsitt valfritt paket från den andre och byter 🎭🎁↔️",
+      "Två spelare väljer varsitt valfritt paket (om det finns) från den andre och byter. 🎭🎁↔️",
     "actions.endgame.5.title": "Santa's Hand",
     "actions.endgame.5.desc":
       "Ge bort ett paket som en annan spelare får välja 🫳🎁",

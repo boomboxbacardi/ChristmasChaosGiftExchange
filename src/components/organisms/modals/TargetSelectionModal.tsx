@@ -26,8 +26,21 @@ export const TargetSelectionModal: React.FC<Props> = ({
   if (!isOpen) return null
   const displayTarget = targetName ?? (isRandomizing ? '…' : '—')
 
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClose()
+  }
+
   return (
-    <div className="modal-overlay" onClick={!isRandomizing ? onClose : undefined}>
+    <div
+      className="modal-overlay"
+      onMouseDown={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      onClick={handleOverlayClick}
+    >
       <div className="modal wide" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Close" disabled={isRandomizing}>
           ×

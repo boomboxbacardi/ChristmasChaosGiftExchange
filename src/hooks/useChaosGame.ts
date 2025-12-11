@@ -12,6 +12,7 @@ import { GamePhase, LogEntry, Player, RollOutcome } from "../types/game";
 import {
   buildRandomSpinPath,
   buildStepDurations,
+  normalizeDurationsToTotal,
   pickFinalRoll,
 } from "../utils/randomizer";
 import { applyEndgameRoll, applyWarmupRoll } from "../game/actions";
@@ -20,9 +21,21 @@ import { useHighlightSequence } from "./useHighlightSequence";
 
 const STORAGE_KEY = "chaos-christmas-game-v1";
 const LANG_KEY = "chaos-lang";
+const RANDOMIZER_TOTAL_MS = 5000;
+const DEBUG_RANDOMIZER_TOTAL_MS = 500;
+const MAX_SPIN_STEPS = 60;
 
 const wait = (ms: number) =>
   new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+const getRandomizerTotal = (isDebug: boolean) =>
+  isDebug ? DEBUG_RANDOMIZER_TOTAL_MS : RANDOMIZER_TOTAL_MS;
+
+const clampSpinPath = (path: number[], maxSteps: number = MAX_SPIN_STEPS) => {
+  if (path.length <= maxSteps) return path;
+  const last = path[path.length - 1];
+  return [...path.slice(0, maxSteps - 1), last];
+};
 
 type TargetOption = { player: Player; idx: number };
 
@@ -107,7 +120,8 @@ export const useChaosGame = () => {
 
   const runHighlightSequence = useHighlightSequence(
     (idx) => setHighlightedIndex(idx),
-    setIsFinalResult
+    setIsFinalResult,
+    { totalDurationMs: getRandomizerTotal(debugMode) }
   );
 
   const currentPlayer = players[currentPlayerIndex] ?? {
@@ -334,7 +348,10 @@ export const useChaosGame = () => {
       finalIndex,
       Math.max(2, Math.ceil(indices.length / 2))
     );
-    const stepDurations = buildStepDurations(spinPath.length, 70, 220);
+    const stepDurations = normalizeDurationsToTotal(
+      buildStepDurations(spinPath.length, 70, 220),
+      getRandomizerTotal(debugMode)
+    );
 
     await new Promise<void>((resolve) => {
       let step = 0;
@@ -437,16 +454,20 @@ export const useChaosGame = () => {
       finalIndex,
       baseLoops
     );
-    const stepDurations = buildStepDurations(spinPath.length, 70, 320);
-    const tailPortion = Math.max(1, Math.floor(stepDurations.length * 0.3));
+    const baseDurations = buildStepDurations(spinPath.length, 70, 320);
+    const tailPortion = Math.max(1, Math.floor(baseDurations.length * 0.3));
     const tailBoost = 2.5;
     for (
-      let i = stepDurations.length - tailPortion;
-      i < stepDurations.length;
+      let i = baseDurations.length - tailPortion;
+      i < baseDurations.length;
       i += 1
     ) {
-      stepDurations[i] *= tailBoost;
+      baseDurations[i] *= tailBoost;
     }
+    const stepDurations = normalizeDurationsToTotal(
+      baseDurations,
+      getRandomizerTotal(debugMode)
+    );
 
     return new Promise<TargetOption>((resolve) => {
       let step = 0;
@@ -521,16 +542,20 @@ export const useChaosGame = () => {
       finalIndex,
       baseLoops
     );
-    const stepDurations = buildStepDurations(spinPath.length, 70, 320);
-    const tailPortion = Math.max(1, Math.floor(stepDurations.length * 0.3));
+    const baseDurations = buildStepDurations(spinPath.length, 70, 320);
+    const tailPortion = Math.max(1, Math.floor(baseDurations.length * 0.3));
     const tailBoost = 2.5;
     for (
-      let i = stepDurations.length - tailPortion;
-      i < stepDurations.length;
+      let i = baseDurations.length - tailPortion;
+      i < baseDurations.length;
       i += 1
     ) {
-      stepDurations[i] *= tailBoost;
+      baseDurations[i] *= tailBoost;
     }
+    const stepDurations = normalizeDurationsToTotal(
+      baseDurations,
+      getRandomizerTotal(debugMode)
+    );
 
     return new Promise<TargetOption>((resolve) => {
       let step = 0;
@@ -581,7 +606,10 @@ export const useChaosGame = () => {
 
     const finalIndex = Math.random() > 0.5 ? 1 : 0;
     const spinPath = buildRandomSpinPath([0, 1], finalIndex, 3);
-    const stepDurations = buildStepDurations(spinPath.length, 80, 260);
+    const stepDurations = normalizeDurationsToTotal(
+      buildStepDurations(spinPath.length, 80, 260),
+      getRandomizerTotal(debugMode)
+    );
 
     return new Promise<"left" | "right">((resolve) => {
       let step = 0;
@@ -646,21 +674,28 @@ export const useChaosGame = () => {
       (weightedIndices.length
         ? weightedIndices[Math.floor(Math.random() * weightedIndices.length)]
         : 0) ?? 0;
-    const spinPath = buildRandomSpinPath(
-      pairs.map((_, idx) => idx),
-      finalIndex,
-      Math.max(2, Math.ceil(pairs.length / 2))
+    const pairIndices = pairs.map((_, idx) => idx);
+    const baseLoops = Math.min(
+      6,
+      Math.max(3, Math.ceil(pairIndices.length / 6))
     );
-    const stepDurations = buildStepDurations(spinPath.length, 70, 320);
-    const tailPortion = Math.max(1, Math.floor(stepDurations.length * 0.3));
+    const spinPath = clampSpinPath(
+      buildRandomSpinPath(pairIndices, finalIndex, baseLoops)
+    );
+    const baseDurations = buildStepDurations(spinPath.length, 70, 320);
+    const tailPortion = Math.max(1, Math.floor(baseDurations.length * 0.3));
     const tailBoost = 2.5;
     for (
-      let i = stepDurations.length - tailPortion;
-      i < stepDurations.length;
+      let i = baseDurations.length - tailPortion;
+      i < baseDurations.length;
       i += 1
     ) {
-      stepDurations[i] *= tailBoost;
+      baseDurations[i] *= tailBoost;
     }
+    const stepDurations = normalizeDurationsToTotal(
+      baseDurations,
+      getRandomizerTotal(debugMode)
+    );
 
     setSelectionTitle(config.title);
     setSelectionVerb(config.verb);
@@ -719,10 +754,20 @@ export const useChaosGame = () => {
       phase
     );
     const availableIndices = availableActions.map((roll) => roll - 1);
+    const pileHasGifts = pileCount > 0;
     const weightedIndices = availableActions.flatMap((roll) => {
-      if (phase === "warmup" && roll === 1) {
+      if (phase === "warmup" && (roll === 1 || roll === 2)) {
         const hasGifts = currentPlayer.packages.length > 0;
-        return Array(hasGifts ? 1 : 3).fill(roll - 1);
+        let weight = roll === 1 && !hasGifts ? 3 : 1;
+        if (pileHasGifts) {
+          weight += 1;
+        }
+        return Array(Math.max(1, weight)).fill(roll - 1);
+      }
+      if (phase === "endgame" && roll === 6) {
+        const hasGifts = currentPlayer.packages.length > 0;
+        const weight = hasGifts ? 1 : 3;
+        return Array(Math.max(1, weight)).fill(roll - 1);
       }
       return [roll - 1];
     });
@@ -899,8 +944,7 @@ export const useChaosGame = () => {
         if (roll === 3) {
           const targets = updatedPlayers
             .map((p, idx) => ({ player: p, idx }))
-            .filter((_, idx) => idx !== currentPlayerIndex)
-            .filter(({ player }) => player.packages.length > 0);
+            .filter((_, idx) => idx !== currentPlayerIndex);
           if (targets.length) {
             modalQueued = true;
             const choice = await runSelectionRandomization(targets, {
@@ -915,10 +959,14 @@ export const useChaosGame = () => {
         }
 
         if (roll === 4) {
-          const available = updatedPlayers
-            .map((p, idx) => ({ player: p, idx }))
-            .filter(({ player }) => player.packages.some((pkg) => !pkg.locked));
-          if (available.length >= 2) {
+          const available = updatedPlayers.map((p, idx) => ({
+            player: p,
+            idx,
+          }));
+          const donors = available.filter(({ player }) =>
+            player.packages.some((pkg) => !pkg.locked)
+          );
+          if (available.length >= 2 && donors.length > 0) {
             modalQueued = true;
             const pair = await runPairSelectionRandomization(available, {
               title: outcomeTable[roll].title,
@@ -1010,13 +1058,13 @@ export const useChaosGame = () => {
       (sum, v) => sum + v,
       0
     );
-    if (remaining === 0 && phase === "endgame") {
-      nextPhase = "ended";
-    } else if (remaining === 0 && phase === "warmup") {
+    if (phase === "warmup") {
       const everyoneHitBase = updatedPlayers.every(
         (p) => (updatedWarmupRollsTaken[p.id] ?? 0) >= WARMUP_ROLLS
       );
-      if (updatedPile <= 0 && everyoneHitBase) {
+      const warmupComplete = updatedPile <= 0 && everyoneHitBase;
+
+      if (warmupComplete) {
         nextPhase = "endgame";
         updatedRolls = Object.fromEntries(
           updatedPlayers.map((p) => [p.id, ENDGAME_ROLLS])
@@ -1028,16 +1076,22 @@ export const useChaosGame = () => {
           },
           ...localLog,
         ];
-      } else if (updatedPile > 0) {
-        updatedRolls = Object.fromEntries(updatedPlayers.map((p) => [p.id, 1]));
-      } else {
-        updatedRolls = Object.fromEntries(
-          updatedPlayers.map((p) => [
-            p.id,
-            Math.max(0, WARMUP_ROLLS - (updatedWarmupRollsTaken[p.id] ?? 0)),
-          ])
-        );
+      } else if (remaining === 0) {
+        if (updatedPile > 0) {
+          updatedRolls = Object.fromEntries(
+            updatedPlayers.map((p) => [p.id, 1])
+          );
+        } else {
+          updatedRolls = Object.fromEntries(
+            updatedPlayers.map((p) => [
+              p.id,
+              Math.max(0, WARMUP_ROLLS - (updatedWarmupRollsTaken[p.id] ?? 0)),
+            ])
+          );
+        }
       }
+    } else if (phase === "endgame" && remaining === 0) {
+      nextPhase = "ended";
     }
 
     const transitionToEndgame = phase === "warmup" && nextPhase === "endgame";

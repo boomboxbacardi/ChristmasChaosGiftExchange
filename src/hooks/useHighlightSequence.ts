@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import {
   buildRandomSpinPath,
   buildStepDurations,
+  normalizeDurationsToTotal,
   pickFinalRoll,
 } from "../utils/randomizer";
 
@@ -13,6 +14,7 @@ type RunHighlightSequence = (
 type Options = {
   minStep?: number;
   maxStep?: number;
+  totalDurationMs?: number;
 };
 
 export const useHighlightSequence = (
@@ -20,7 +22,7 @@ export const useHighlightSequence = (
   setIsFinalResult: (isFinal: boolean) => void,
   options: Options = {}
 ): RunHighlightSequence => {
-  const { minStep = 45, maxStep = 260 } = options;
+  const { minStep = 45, maxStep = 260, totalDurationMs } = options;
 
   return useCallback(
     async (availableIndices: number[], finalIndexOverride?: number) => {
@@ -52,6 +54,11 @@ export const useHighlightSequence = (
         stepDurations[i] *= tailBoost;
       }
 
+      const durations =
+        typeof totalDurationMs === "number"
+          ? normalizeDurationsToTotal(stepDurations, totalDurationMs)
+          : stepDurations;
+
       return new Promise<number>((resolve) => {
         let step = 0;
         let lastChange = 0;
@@ -63,7 +70,7 @@ export const useHighlightSequence = (
             return;
           }
 
-          if (timestamp - lastChange >= stepDurations[step]) {
+          if (timestamp - lastChange >= durations[step]) {
             setHighlightedIndex(spinPath[step]);
             lastChange = timestamp;
             step += 1;
@@ -75,6 +82,6 @@ export const useHighlightSequence = (
         window.requestAnimationFrame(tick);
       });
     },
-    [setHighlightedIndex, setIsFinalResult, minStep, maxStep]
+    [setHighlightedIndex, setIsFinalResult, minStep, maxStep, totalDurationMs]
   );
 };

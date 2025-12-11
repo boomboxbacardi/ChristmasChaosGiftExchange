@@ -48,3 +48,13 @@ export const buildStepDurations = (
 
 export const pickFinalRoll = (indices: number[]) =>
   indices[Math.floor(Math.random() * indices.length)];
+
+export const normalizeDurationsToTotal = (
+  durations: number[],
+  totalMs: number
+) => {
+  const total = durations.reduce((sum, value) => sum + value, 0);
+  if (total <= 0 || totalMs <= 0) return durations;
+  const scale = totalMs / total;
+  return durations.map((value) => value * scale);
+};
