@@ -1,4 +1,4 @@
-# Chaos Christmas Gift Game
+# Christmas Chaos Game
 
 Fast, fair, and delightfully chaotic dice-driven gift game built with Vite + React + TypeScript. Dark-mode first with a playful, high-contrast UI.
 

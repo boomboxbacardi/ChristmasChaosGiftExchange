@@ -6,5 +6,6 @@
 - UX: keep UI text concise; ensure accessibility basics (labels, focus, contrasts).
 - API usage: handle loading/error states; never block UI on long calls without feedback.
 - Styling: respect existing conventions and component patterns.
+- Make refactor changes as you go to improve and adhere to atomic design.
 
 
