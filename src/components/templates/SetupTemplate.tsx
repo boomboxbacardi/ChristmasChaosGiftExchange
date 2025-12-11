@@ -79,7 +79,6 @@ export const SetupTemplate = ({
           <SectionHeader title={setupTitle} label={setupHint} />
           <SetupList
             players={players}
-            highlightedIndex={highlightedIndex}
             onNameChange={onNameChange}
             onRemove={onRemove}
             onAdd={onAdd}
@@ -101,7 +100,7 @@ export const SetupTemplate = ({
             />
           </div>
           <div className="spinner-actions">
-            <button className="primary" onClick={onRandomize} disabled={isRandomizing}>
+            <button className="primary vibe full-width" onClick={onRandomize} disabled={isRandomizing}>
               {isRandomizing ? randomizingLabel : randomizeLabel}
             </button>
           </div>

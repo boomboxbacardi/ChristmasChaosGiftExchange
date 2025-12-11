@@ -1,6 +1,5 @@
 type SetupListProps = {
   players: string[]
-  highlightedIndex: number | null
   onNameChange: (index: number, value: string) => void
   onRemove: (index: number) => void
   onAdd: () => void
@@ -12,7 +11,6 @@ type SetupListProps = {
 
 export const SetupList = ({
   players,
-  highlightedIndex,
   onNameChange,
   onRemove,
   onAdd,
@@ -23,14 +21,25 @@ export const SetupList = ({
 }: SetupListProps) => (
   <div className="setup-list">
     {players.map((name, idx) => (
-      <div key={idx} className={`setup-row ${highlightedIndex === idx ? 'active' : ''}`}>
-        <input value={name} onChange={(e) => onNameChange(idx, e.target.value)} placeholder={playerPlaceholder(idx + 1)} />
-        <button className="secondary" onClick={() => onRemove(idx)} disabled={disableRemove}>
+      <div key={idx} className="setup-row">
+        <span className="setup-index" aria-hidden="true">
+          {idx + 1}
+        </span>
+        <input
+          value={name}
+          onChange={(e) => onNameChange(idx, e.target.value)}
+          placeholder={playerPlaceholder(idx + 1)}
+          aria-label={playerPlaceholder(idx + 1)}
+        />
+        <button className="secondary ghost" onClick={() => onRemove(idx)} disabled={disableRemove}>
           {removeLabel}
         </button>
       </div>
     ))}
-    <button className="secondary" onClick={onAdd}>
+    <button className="secondary ghost setup-add" onClick={onAdd}>
+      <span className="setup-add-icon" aria-hidden="true">
+        +
+      </span>
       {addLabel}
     </button>
   </div>
